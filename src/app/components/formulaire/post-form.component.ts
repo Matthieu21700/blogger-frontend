@@ -27,4 +27,5 @@ export class PostFormComponent implements OnInit {
   submit(): void {
     // envoyer `this.post` via PostService à ton backend
   }
+  
 }

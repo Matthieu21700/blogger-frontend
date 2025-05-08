@@ -4,7 +4,7 @@ import { PostListComponent } from './post-list/post-list.component';
 import { PostFormComponent } from './components/formulaire/post-form.component';
 
 const routes: Routes = [
-  {path: 'create-post', component: PostFormComponent },
+  {path: 'add-post', component: PostFormComponent },
   {path: '',component:PostListComponent},
     // Route pour le formulaire
  
