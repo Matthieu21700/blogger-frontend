@@ -8,7 +8,8 @@ export interface Post{
     category : Category;
 }
 
-export const POSTS = [
+export type PostCreateInput=Omit<Post,"id"|"createdDate">
+/*export const POSTS = [
     {
       id: 'c9f3bcb3-dd91-4d79-88d8-5b9d99d8cd20',
       title:
@@ -175,5 +176,5 @@ export const POSTS = [
         name: 'Children',
       },
     },
-  ];
+  ];*/
 
