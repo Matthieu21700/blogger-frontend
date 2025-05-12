@@ -35,6 +35,8 @@
             <!-- Catégorie -->
             <div class="mb-3">
                 <label for="category" class="form-label">Catégorie</label>
+                
+
                 <select class="form-select" id="category" formControlName="category" required>
                     <option value="">Choisissez une catégorie</option>
                     <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
@@ -65,6 +67,7 @@
             </div>
 
             <button type="submit" class="btn btn-success" [disabled]="postForm.invalid">Publier</button>
+           
             <button type="button" class="btn btn-danger" (click)="close()">Annuler</button>
         </form>
     </div>

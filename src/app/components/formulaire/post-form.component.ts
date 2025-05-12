@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';  // Importez FormGroup et FormBuilder
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PostService } from '../../services/post.service';
+
 
 @Component({
   selector: 'app-post-form',
@@ -17,7 +19,7 @@ export class PostFormComponent implements OnInit {
   postForm: FormGroup;
   
 
-  constructor(private categoryService: CategoryService, private fb: FormBuilder) {
+  constructor(private categoryService: CategoryService, private fb: FormBuilder, private postService: PostService  ) {
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
       content: ['', [Validators.required, Validators.maxLength(2500)]],
@@ -46,9 +48,23 @@ export class PostFormComponent implements OnInit {
         title: 'Please review your post',
         showConfirmButton: false,
         timer: 3000
+      });return;
+    } 
+    const formValue = this.postForm.value;
+    const payload = {
+      title: formValue.title,
+      content: formValue.content,
+      categoryId: formValue.category // ← ici c'est bien l'UUID
+    };
+      this.postService.createPost(payload).subscribe({
+        next: (response) => {
+          console.log('Post ajouté avec succès !', response);
+          this.postForm.reset(); // Réinitialise le formulaire
+        },
+        error: (error) => {
+          console.error('Erreur lors de l\'ajout du post', error);
+        }
       });
-    } else {
-      // Si le formulaire est valide, afficher un toast de succès et rediriger
       Swal.fire({
         toast: true,
         position: 'top-end',
@@ -57,11 +73,11 @@ export class PostFormComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       }).then(() => {
-        // Rediriger vers la page d'accueil ou autre page (ajustez l'URL)
+        
         window.location.href = '/';  // ou utilisez le routeur Angular pour une navigation propre
       });
     }
   }
   
   
-}
+
