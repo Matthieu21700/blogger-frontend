@@ -27,7 +27,7 @@
                 <div *ngIf="postForm.get('title')?.touched && postForm.get('title')?.errors?.['minlength']" class="invalid-feedback">
                     Le titre doit comporter au moins 5 caractères.
                 </div>
-                <div *ngIf="postForm.get('title')?.touched && postForm.get('title')?.errors?.['maxlength']" class="invalid-feedback">
+                <div *ngIf="postForm.get('title')?.value?.length > 150" class="invalid-feedback">
                     Le titre ne doit pas dépasser 150 caractères.
                 </div>
             </div>
@@ -37,7 +37,11 @@
                 <label for="category" class="form-label">Catégorie</label>
                 
 
-                <select class="form-select" id="category" formControlName="category" required>
+                <select class="form-select" 
+                id="category" 
+                formControlName="category" 
+                required
+                [ngClass]="{'is-invalid': postForm.get('category')?.touched && postForm.get('category')?.invalid}">
                     <option value="">Choisissez une catégorie</option>
                     <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
                 </select>
@@ -53,7 +57,6 @@
                           formControlName="content" 
                           rows="4" 
                           required 
-                          maxlength="2500"
                           [class.is-valid]="postForm.get('content')?.valid && postForm.get('content')?.touched"
                           [ngClass]="{'is-invalid': content.touched && content.invalid}">
 
@@ -61,7 +64,7 @@
                 <div *ngIf="postForm.get('content')?.touched && postForm.get('content')?.errors?.['required']" class="invalid-feedback">
                     Le contenu est requis.
                 </div>
-                <div *ngIf="postForm.get('content')?.touched && postForm.get('content')?.errors?.['maxlength']" class="invalid-feedback">
+                <div *ngIf="postForm.get('content')?.value?.length>2500" class="invalid-feedback">
                     Le contenu ne doit pas dépasser 2500 caractères.
                 </div>
             </div>
