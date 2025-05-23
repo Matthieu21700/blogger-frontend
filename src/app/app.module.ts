@@ -15,6 +15,7 @@ import { CategoryService } from './services/category.service';
 import { FormsModule } from '@angular/forms';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { JobService } from './services/job.service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { JobService } from './services/job.service';
     TopBarComponent,
     PostListComponent,
     PostListItemComponent,
-    JobListComponent
+    JobListComponent,
+    LoginComponent
   
   ],
   imports: [

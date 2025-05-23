@@ -1,14 +1,24 @@
-<nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
+<nav class="navbar bg-body-tertiary px-4">
+  <div class="container-fluid">
     <a class="navbar-brand" [routerLink]="['/']">
-    <i class="bi bi-postcard"></i> Job Portal
+      <i class="bi bi-postcard"></i> Job Portal
     </a>
-    <form class="d-flex">
-        <a href="add-post">
-    <button class="btn btn-outline-success" type="button">
-    <i class="bi bi-pencil-square"></i> Write
-    </button>
-</a>
-    </form>
+
+    <div class="ms-auto d-flex align-items-center">
+      <ng-container *ngIf="isConnected(); else loginLink">
+        <span class="me-3">
+          Connecté en tant que <strong>{{ getRoleLabel() }}</strong>
+        </span>
+        <button class="btn btn-outline-danger btn-sm" (click)="logout()">Déconnexion</button>
+      </ng-container>
+
+      <ng-template #loginLink>
+        <a [routerLink]="['/login']">
+          <button class="btn btn-outline-success btn-sm" type="button">
+            Connexion
+          </button>
+        </a>
+      </ng-template>
     </div>
-    </nav>
+  </div>
+</nav>
