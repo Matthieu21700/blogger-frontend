@@ -7,7 +7,7 @@ import { Category } from "../data/category";
 
 @Injectable()
 export class CategoryService{
-    private categoryUrl = 'http://localhost:8080/categories';
+    private categoryUrl = 'http://localhost:1234/categories';
     constructor(private http : HttpClient){}
     //getPosts(): Observable<Post[]>{
      //   const posts = of(POSTS);

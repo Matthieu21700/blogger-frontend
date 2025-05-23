@@ -13,6 +13,8 @@ import { PostFormComponent } from './components/formulaire/post-form.component';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from './services/category.service';
 import { FormsModule } from '@angular/forms';
+import { JobListComponent } from './components/job-list/job-list.component';
+import { JobService } from './services/job.service';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     TopBarComponent,
     PostListComponent,
     PostListItemComponent,
+    JobListComponent
   
   ],
   imports: [
@@ -35,7 +38,8 @@ import { FormsModule } from '@angular/forms';
   providers: [
     provideHttpClient(),
     PostService,
-    CategoryService
+    CategoryService,
+    JobService
   ],
   bootstrap: [AppComponent
   ]

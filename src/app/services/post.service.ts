@@ -6,7 +6,7 @@ import{ Post} from '../data/post'
 
 @Injectable()
 export class PostService{
-    private postsUrl = 'http://localhost:8080/posts';
+    private postsUrl = 'http://localhost:1234/posts';
 
     constructor(private http : HttpClient){}
     //getPosts(): Observable<Post[]>{

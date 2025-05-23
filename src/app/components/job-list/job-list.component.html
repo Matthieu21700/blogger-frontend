@@ -1,0 +1,11 @@
+<div class="job-list">
+  <h2>Liste des offres d'emploi</h2>
+  <div *ngFor="let job of jobs" class="job-card">
+    <h3>{{ job.title }}</h3>
+    <p><strong>Description:</strong> {{ job.description }}</p>
+    <p><strong>Localisation:</strong> {{ job.location || 'Non précisée' }}</p>
+    <p><strong>Type:</strong> {{ job.type }}</p>
+    <p><strong>Salaire:</strong> {{ job.salaryMin }}€ - {{ job.salaryMax }}€</p>
+    <hr>
+  </div>
+</div>
