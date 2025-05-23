@@ -1,11 +1,15 @@
 <div class="job-list">
   <h2>Liste des offres d'emploi</h2>
 
-  <form (submit)="searchJobs(); $event.preventDefault()" class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+  <form (submit)="searchJobs(); $event.preventDefault()" class="mb-4 row g-2">
   <input type="text" placeholder="Lieu" [(ngModel)]="location" name="location" class="border p-2 rounded" />
   <input type="text" placeholder="Type (Full-time, etc)" [(ngModel)]="type" name="type" class="border p-2 rounded" />
   <input type="text" placeholder="Niveau (Junior, etc)" [(ngModel)]="experienceLevel" name="experienceLevel" class="border p-2 rounded" />
-  <button type="submit" class="col-span-1 sm:col-span-3 bg-blue-500 text-white p-2 rounded">Rechercher</button>
+<button
+  type="submit"
+class="btn btn-primary col-span-1 sm:col-span-3">
+  Rechercher
+</button>
 </form>
 
   <div *ngFor="let job of jobs" class="job-card">

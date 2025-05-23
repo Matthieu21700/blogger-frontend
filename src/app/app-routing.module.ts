@@ -6,8 +6,8 @@ import { JobListComponent } from './components/job-list/job-list.component';
 
 const routes: Routes = [
   {path: 'add-post', component: PostFormComponent },
-  {path: '',component:PostListComponent},
-  {path:'home',component: JobListComponent},
+  {path: 'post',component:PostListComponent},
+  {path:'',component: JobListComponent},
     // Route pour le formulaire
  
 ];
