@@ -16,6 +16,9 @@ import { FormsModule } from '@angular/forms';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { JobService } from './services/job.service';
 import { LoginComponent } from './login/login.component';
+import { JobCreateComponent } from './job-create/job-create.component';
+import { RegisterComponent } from './register/register.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { LoginComponent } from './login/login.component';
     PostListComponent,
     PostListItemComponent,
     JobListComponent,
-    LoginComponent
+    LoginComponent,
+    JobCreateComponent,
+    RegisterComponent
   
   ],
   imports: [
@@ -41,7 +46,8 @@ import { LoginComponent } from './login/login.component';
     provideHttpClient(),
     PostService,
     CategoryService,
-    JobService
+    JobService,
+    UserService
   ],
   bootstrap: [AppComponent
   ]

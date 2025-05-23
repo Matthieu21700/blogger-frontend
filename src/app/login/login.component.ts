@@ -21,7 +21,7 @@ export class LoginComponent {
 
     // Redirection selon rôle
     if (this.role === 'RECRUITER') {
-      this.router.navigate(['post']);
+      this.router.navigate(['create-job']);
     } else {
       this.router.navigate(['']);
     }
