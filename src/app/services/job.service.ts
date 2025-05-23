@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Job } from '../data/job';
 
@@ -13,4 +13,14 @@ export class JobService {
   getJobs(): Observable<Job[]> {
     return this.http.get<Job[]>(this.apiUrl);
   }
+  // src/app/services/job.service.ts
+searchJobs(location: string, type: string, experienceLevel: string): Observable<Job[]> {
+  const params = new HttpParams()
+    .set('location', location)
+    .set('type', type)
+    .set('experienceLevel', experienceLevel);
+
+  return this.http.get<Job[]>(`${this.apiUrl}/search`, { params });
+}
+
 }
