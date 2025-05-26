@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {UserService } from '../services/user.service';
+
 
 @Component({
   selector: 'app-login',
@@ -12,13 +14,14 @@ export class LoginComponent {
   password = '';
   role = 'JOB_SEEKER';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private UserService: UserService ) {}
 
   login() {
     // Enregistrement "fake" des infos
     localStorage.setItem('userRole', this.role);
     localStorage.setItem('userEmail', this.email);
-
+    const userEmail = localStorage.getItem('userEmail'); // ou 'userEmail' si tu fais le lien côté backend
+    console.log('bon',userEmail);
     // Redirection selon rôle
     if (this.role === 'RECRUITER') {
       this.router.navigate(['create-job']);

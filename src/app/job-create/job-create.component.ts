@@ -25,23 +25,37 @@ export class JobCreateComponent {
   constructor(private jobService: JobService, private router: Router,private UserService: UserService) {}
 
   createJob(): void {
-    const userEmail = localStorage.getItem('userEmail'); // ou 'userEmail' si tu fais le lien côté backend
-    const userId =this.UserService.getIdByemail(userEmail);
-    console.log('bon',userId);
-    if (!userId) {
-      alert('Vous devez être connecté pour publier une offre.');
-      return;
-    }
+    const userEmail = localStorage.getItem('userEmail');
 
-    this.jobService.createJob({ ...this.job, userId }).subscribe({
-      next: () => {
-        alert('Offre créée avec succès !');
-        this.router.navigate(['/jobs']);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la création de l’offre :', err);
-        alert('Erreur lors de la création de l’offre.');
-      }
-    });
+if (userEmail) {
+  this.UserService.getIdByemail(userEmail).subscribe({
+    next: (userId: string) => {
+      console.log('ID utilisateur récupéré :', userId);
+
+      // Tu peux maintenant appeler createJob ici :
+      this.jobService.createJob({
+        ...this.job,
+        user: {
+          id: userId
+        }
+      }).subscribe({
+        next: () => {
+          alert('Offre créée avec succès !');
+          this.router.navigate(['/jobs']);
+        },
+        error: (err) => {
+          console.error('Erreur lors de la création de l’offre :', err);
+          alert('Erreur lors de la création de l’offre.');
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Erreur lors de la récupération de l\'ID utilisateur :', err);
+      alert('Erreur lors de la récupération de l\'utilisateur.');
+    }
+  });
+} else {
+  alert('Vous devez être connecté pour publier une offre.');
+}
   }
 }

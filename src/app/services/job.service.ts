@@ -23,7 +23,7 @@ searchJobs(location: string, type: string, experienceLevel: string): Observable<
   return this.http.get<Job[]>(`${this.apiUrl}/search`, { params });
 }
 createJob(job: any): Observable<any> {
-  return this.http.post(`${this.apiUrl}/jobs`, job);
+  return this.http.post(`${this.apiUrl}`, job);
 }
 
 
