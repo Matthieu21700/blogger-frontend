@@ -13,6 +13,9 @@ export class JobService {
   getJobs(): Observable<Job[]> {
     return this.http.get<Job[]>(this.apiUrl);
   }
+  getJobById(id: string): Observable<Job> {
+    return this.http.get<Job>(`${this.apiUrl}/${id}`);
+  }
   // src/app/services/job.service.ts
 searchJobs(location: string, type: string, experienceLevel: string): Observable<Job[]> {
   const params = new HttpParams()

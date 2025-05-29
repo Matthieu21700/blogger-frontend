@@ -19,6 +19,8 @@ import { LoginComponent } from './login/login.component';
 import { JobCreateComponent } from './job-create/job-create.component';
 import { RegisterComponent } from './register/register.component';
 import { UserService } from './services/user.service';
+import { JobApplicationComponent } from './job-application/job-application.component';
+import { ApplicationService } from './services/application.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { UserService } from './services/user.service';
     JobListComponent,
     LoginComponent,
     JobCreateComponent,
-    RegisterComponent
+    RegisterComponent,
+    JobApplicationComponent
   
   ],
   imports: [
@@ -47,7 +50,8 @@ import { UserService } from './services/user.service';
     PostService,
     CategoryService,
     JobService,
-    UserService
+    UserService,
+    ApplicationService
   ],
   bootstrap: [AppComponent
   ]

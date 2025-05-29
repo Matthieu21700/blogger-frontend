@@ -1,0 +1,47 @@
+/* src/app/job-application/job-application.component.css */
+.job-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .card-header {
+    background-color: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 600;
+  }
+  
+  .input-group .btn {
+    border-left: none;
+  }
+  
+  .border.rounded {
+    border-color: #ced4da !important;
+  }
+  
+  .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  
+  .form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  
+  .text-muted {
+    font-size: 0.9em;
+  }
+  
+  @media (max-width: 768px) {
+    .card {
+      margin-bottom: 1rem;
+    }
+    
+    .col-md-4, .col-md-8 {
+      margin-bottom: 1rem;
+    }
+  }

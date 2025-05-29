@@ -1,0 +1,152 @@
+<!-- src/app/job-application/job-application.component.html -->
+<div class="container mt-4">
+    <div class="row">
+      <!-- Informations sur le poste -->
+      <div class="col-md-4" *ngIf="job">
+        <div class="card">
+          <div class="card-header">
+            <h5>{{ job.title }}</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Entreprise:</strong> {{ job.location }}</p>
+            <p><strong>Type:</strong> {{ job.type }}</p>
+            <p><strong>Niveau:</strong> {{ job.experienceLevel }}</p>
+            <p><strong>Salaire:</strong> {{ job.salaryMin }}€ - {{ job.salaryMax }}€</p>
+            <p class="text-muted">{{ job.description }}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Formulaire de candidature -->
+      <div class="col-md-8">
+        <h2>Postuler pour ce poste</h2>
+        
+        <form (ngSubmit)="submitApplication()" #applicationForm="ngForm">
+          
+          <!-- Informations personnelles -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5>Informations personnelles</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">Prénom *</label>
+                  <input type="text" id="firstName" class="form-control" 
+                         required [(ngModel)]="application.firstName" name="firstName">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Nom *</label>
+                  <input type="text" id="lastName" class="form-control" 
+                         required [(ngModel)]="application.lastName" name="lastName">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label">Email *</label>
+                  <input type="email" id="email" class="form-control" 
+                         required [(ngModel)]="application.email" name="email">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">Téléphone</label>
+                  <input type="tel" id="phone" class="form-control" 
+                         [(ngModel)]="application.phone" name="phone">
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Expériences professionnelles -->
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5>Expériences professionnelles</h5>
+              <button type="button" class="btn btn-sm btn-outline-primary" 
+                      (click)="addWorkExperience()">
+                + Ajouter une expérience
+              </button>
+            </div>
+            <div class="card-body">
+              <div *ngFor="let experience of application.workExperiences; let i = index" 
+                   class="border rounded p-3 mb-3">
+                
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6>Expérience #{{ i + 1 }}</h6>
+                  <button type="button" class="btn btn-sm btn-outline-danger" 
+                          (click)="removeWorkExperience(i)"
+                          [disabled]="application.workExperiences.length === 1">
+                    Supprimer
+                  </button>
+                </div>
+  
+                <div class="mb-3">
+                  <label class="form-label">Poste</label>
+                  <input type="text" class="form-control" 
+                         [(ngModel)]="experience.title" 
+                         [name]="'experienceTitle' + i">
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Description</label>
+                  <textarea class="form-control" rows="3" 
+                            [(ngModel)]="experience.description"
+                            [name]="'experienceDesc' + i"></textarea>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Date de début</label>
+                    <input type="date" class="form-control" 
+                           [(ngModel)]="experience.startDate"
+                           [name]="'experienceStart' + i">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Date de fin</label>
+                    <input type="date" class="form-control" 
+                           [(ngModel)]="experience.endDate"
+                           [name]="'experienceEnd' + i">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Compétences -->
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5>Compétences</h5>
+              <button type="button" class="btn btn-sm btn-outline-primary" 
+                      (click)="addSkill()">
+                + Ajouter une compétence
+              </button>
+            </div>
+            <div class="card-body">
+              <div *ngFor="let skill of application.skills; let i = index" 
+                   class="input-group mb-2">
+                <input type="text" class="form-control" 
+                       placeholder="Ex: JavaScript, Communication, etc."
+                       [(ngModel)]="application.skills[i]" 
+                       [name]="'skill' + i">
+                <button type="button" class="btn btn-outline-danger" 
+                        (click)="removeSkill(i)"
+                        [disabled]="application.skills.length === 1">
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Boutons -->
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" 
+                    (click)="router.navigate(['/'])">
+              Annuler
+            </button>
+            <button type="submit" class="btn btn-primary" 
+                    [disabled]="!applicationForm.form.valid">
+              Envoyer ma candidature
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

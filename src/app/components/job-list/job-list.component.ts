@@ -34,4 +34,8 @@ export class JobListComponent implements OnInit {
       error: (err) => console.error('Erreur lors de la recherche :', err)
     });
   }
+  isJobSeeker(): boolean {
+    const userRole = localStorage.getItem('userRole');
+    return userRole === 'JOB_SEEKER';
+  }
 }
