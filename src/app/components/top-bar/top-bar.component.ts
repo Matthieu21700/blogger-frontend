@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
     templateUrl:'./top-bar.component.html',
     styleUrl: './top-bar.component.css',
     standalone: false
-})export class TopBarComponent{
+})export class TopBarComponent  {
      constructor(private router: Router) {}
 
   isConnected(): boolean {
@@ -16,6 +16,9 @@ import { Router } from '@angular/router';
   getRoleLabel(): string {
     const role = localStorage.getItem('userRole');
     return role === 'RECRUITER' ? 'Recruteur' : 'Candidat';
+  }
+  isRecruteur(): boolean {
+    return localStorage.getItem('userRole') === 'RECRUITER';
   }
 
   logout(): void {

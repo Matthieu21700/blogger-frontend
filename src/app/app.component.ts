@@ -8,5 +8,5 @@ import { Router } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Job-Portal';
+  title = 'blogger-frontend';
 }
