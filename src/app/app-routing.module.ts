@@ -15,7 +15,7 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   { path: 'create-job', component: JobCreateComponent },
   { path: 'register', component: RegisterComponent },
-  {path: 'apply/:jobId', component: JobApplicationComponent}
+  {path: 'apply/:jobId', component: JobApplicationComponent},
 
 
 

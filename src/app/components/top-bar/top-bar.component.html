@@ -9,6 +9,13 @@
         <span class="me-3">
           Connecté en tant que <strong>{{ getRoleLabel() }}</strong>
         </span>
+         <button
+          *ngIf="isRecruteur()"
+          class="btn btn-primary btn-sm me-2"
+          [routerLink]="['/job-postes']"
+        >
+          Mes annonces
+        </button>
         <button class="btn btn-outline-danger btn-sm" (click)="logout()">Déconnexion</button>
       </ng-container>
 
@@ -16,6 +23,11 @@
         <a [routerLink]="['/login']">
           <button class="btn btn-outline-success btn-sm" type="button">
             Connexion
+          </button>
+        </a>
+        <a [routerLink]="['/register']">
+          <button class="btn btn-outline-primary btn-sm" type="button">
+            Register
           </button>
         </a>
       </ng-template>

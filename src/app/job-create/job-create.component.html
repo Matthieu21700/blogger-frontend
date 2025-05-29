@@ -3,28 +3,113 @@
   <form (ngSubmit)="createJob()" #jobForm="ngForm">
     <div class="mb-3">
       <label for="title" class="form-label">Titre</label>
-      <input type="text" id="title" class="form-control" required [(ngModel)]="job.title" name="title" />
+      <input type="text" id="title" class="form-control" required [(ngModel)]="job.title" name="title"
+      [(ngModel)]="job.title"
+    #title="ngModel"
+    required
+    minlength="5"
+    maxlength="50"
+    [ngClass]="{
+      'is-invalid': title.invalid && title.touched
+    }"
+     />
     </div>
+    <div *ngIf="title.invalid && title.touched" class="text-danger mt-1">
+    <div *ngIf="title.errors?.['required']">
+      Ce champ est requis.
+    </div>
+    <div *ngIf="title.errors?.['minlength']">
+      Le titre doit contenir au moins 5 caractères.
+    </div>
+    <div *ngIf="title.errors?.['maxlength']">
+      Le titre ne doit pas dépasser 50 caractères.
+    </div>
+  </div>
 
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <textarea id="description" class="form-control" rows="3" required [(ngModel)]="job.description" name="description"></textarea>
+      <textarea id="description" class="form-control" rows="3" required [(ngModel)]="job.description" name="description"
+      [(ngModel)]="job.description"
+    #description="ngModel"
+    required
+    maxlength="2500"
+    [ngClass]="{
+      'is-invalid': description.invalid && description.touched
+    }">
+  </textarea>
     </div>
+    <div *ngIf="description.invalid && description.touched" class="text-danger mt-1">
+    <div *ngIf="description.errors?.['required']">
+      Ce champ est requis.
+    </div>
+    <div *ngIf="description.errors?.['maxlength']">
+      Ce champ ne doit pas dépasser 2500 caractères.
+    </div>
+</div>
 
     <div class="mb-3">
       <label for="responsibilities" class="form-label">Responsabilités</label>
-      <textarea id="responsibilities" class="form-control" rows="2" [(ngModel)]="job.responsibilities" name="responsibilities"></textarea>
+      <textarea id="responsibilities" class="form-control" rows="2" [(ngModel)]="job.responsibilities" name="responsibilities"
+      [(ngModel)]="job.responsibilities"
+    #responsibilities="ngModel"
+    required
+    maxlength="2500"
+    [ngClass]="{
+      'is-invalid': responsibilities.invalid && responsibilities.touched
+    }">
+  </textarea>
     </div>
+    <div *ngIf="responsibilities.invalid && responsibilities.touched" class="text-danger mt-1">
+    <div *ngIf="responsibilities.errors?.['required']">
+      Ce champ est requis.
+    </div>
+    <div *ngIf="responsibilities.errors?.['maxlength']">
+      Ce champ ne doit pas dépasser 2500 caractères.
+    </div>
+</div>
 
     <div class="mb-3">
       <label for="qualifications" class="form-label">Qualifications</label>
-      <textarea id="qualifications" class="form-control" rows="2" [(ngModel)]="job.qualifications" name="qualifications"></textarea>
+      <textarea id="qualifications" class="form-control" rows="2" [(ngModel)]="job.qualifications" name="qualifications"
+      [(ngModel)]="job.qualifications"
+    #qualifications="ngModel"
+    required
+    maxlength="2500"
+    [ngClass]="{
+      'is-invalid': qualifications.invalid && qualifications.touched
+    }">
+  </textarea>
+</div>
+  <div *ngIf="qualifications.invalid && qualifications.touched" class="text-danger mt-1">
+    <div *ngIf="qualifications.errors?.['required']">
+      Ce champ est requis.
     </div>
+    <div *ngIf="qualifications.errors?.['maxlength']">
+      Ce champ ne doit pas dépasser 2500 caractères.
+    </div>
+  </div>
+  
 
     <div class="mb-3">
       <label for="location" class="form-label">Lieu</label>
-      <input type="text" id="location" class="form-control" [(ngModel)]="job.location" name="location" />
+      <input type="text" id="location" class="form-control" [(ngModel)]="job.location" name="location"
+      [(ngModel)]="job.location"
+    #location="ngModel"
+    required
+    maxlength="2500"
+    [ngClass]="{
+      'is-invalid': location.invalid && location.touched
+    }"
+     />
     </div>
+    <div *ngIf="location.invalid && location.touched" class="text-danger mt-1">
+    <div *ngIf="location.errors?.['required']">
+      Ce champ est requis.
+    </div>
+    <div *ngIf="location.errors?.['maxlength']">
+      Ce champ ne doit pas dépasser 2500 caractères.
+    </div>
+  </div>
 
     <div class="mb-3">
       <label for="type" class="form-label">Type de contrat</label>

@@ -21,6 +21,7 @@ import { RegisterComponent } from './register/register.component';
 import { UserService } from './services/user.service';
 import { JobApplicationComponent } from './job-application/job-application.component';
 import { ApplicationService } from './services/application.service';
+import { JobPostesComponent } from './job-postes/job-postes.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ApplicationService } from './services/application.service';
     LoginComponent,
     JobCreateComponent,
     RegisterComponent,
-    JobApplicationComponent
+    JobApplicationComponent,
+    JobPostesComponent
   
   ],
   imports: [

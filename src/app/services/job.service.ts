@@ -28,6 +28,9 @@ searchJobs(location: string, type: string, experienceLevel: string): Observable<
 createJob(job: any): Observable<any> {
   return this.http.post(`${this.apiUrl}`, job);
 }
+getJobsByUserId(userId: string): Observable<Job[]> {
+    return this.http.get<Job[]>(`${this.apiUrl}/user/${userId}`);
+  }
 
 
 
