@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { JobCreateComponent } from './job-create/job-create.component';
 import { RegisterComponent } from './register/register.component';
 import { JobApplicationComponent } from './job-application/job-application.component';
+import { JobPostesComponent } from './job-postes/job-postes.component';
 
 const routes: Routes = [
   {path: 'add-post', component: PostFormComponent },
@@ -16,6 +17,8 @@ const routes: Routes = [
   { path: 'create-job', component: JobCreateComponent },
   { path: 'register', component: RegisterComponent },
   {path: 'apply/:jobId', component: JobApplicationComponent},
+  {path: 'job-postes', component: JobPostesComponent},
+
 
 
 

@@ -13,6 +13,9 @@ export class JobPostesComponent implements OnInit{
   location = '';
   type = '';
   experienceLevel = '';
+  companyName = '';
+salaryMin: number | null = null;
+salaryMax: number | null = null;
 
   constructor(private jobService: JobService) {}
 
@@ -31,11 +34,18 @@ export class JobPostesComponent implements OnInit{
       console.warn("Aucun userId trouvé dans le localStorage.");
     }
   }
-  searchJobs(): void {
-    this.jobService.searchJobs(this.location, this.type, this.experienceLevel).subscribe({
-      next: (data) => this.jobs = data,
-      error: (err) => console.error('Erreur lors de la recherche :', err)
-    });
-  }
+ searchJobs(): void {
+  this.jobService.searchJobs(
+    this.location,
+    this.type,
+    this.experienceLevel,
+    this.companyName,
+    this.salaryMin,
+    this.salaryMax
+  ).subscribe({
+    next: (data) => this.jobs = data,
+    error: (err) => console.error('Erreur lors de la recherche :', err)
+  });
+}
 
 }

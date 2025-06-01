@@ -5,6 +5,10 @@
     <input type="text" placeholder="Lieu" [(ngModel)]="location" name="location" class="border p-2 rounded" />
     <input type="text" placeholder="Type (Full-time, etc)" [(ngModel)]="type" name="type" class="border p-2 rounded" />
     <input type="text" placeholder="Niveau (Junior, etc)" [(ngModel)]="experienceLevel" name="experienceLevel" class="border p-2 rounded" />
+    <input type="text" placeholder="Entreprise" [(ngModel)]="companyName" name="companyName" class="border p-2 rounded" />
+    <input type="number" placeholder="Salaire min" [(ngModel)]="salaryMin" name="salaryMin" class="border p-2 rounded" />
+    <input type="number" placeholder="Salaire max" [(ngModel)]="salaryMax" name="salaryMax" class="border p-2 rounded" />
+
     <button type="submit" class="btn btn-primary col-span-1 sm:col-span-3">
       Rechercher
     </button>
@@ -13,11 +17,17 @@
   <div *ngFor="let job of jobs" class="job-card card mb-3">
     <div class="card-body">
       <h3 class="card-title">{{ job.title }}</h3>
+      <p class="card-text"><strong>Entreprise:</strong> {{ job.companyName || 'Non précisée' }}</p>
       <p class="card-text"><strong>Description:</strong> {{ job.description }}</p>
       <p class="card-text"><strong>Localisation:</strong> {{ job.location || 'Non précisée' }}</p>
       <p class="card-text"><strong>Type:</strong> {{ job.type }}</p>
       <p class="card-text"><strong>Niveau:</strong> {{ job.experienceLevel }}</p>
       <p class="card-text"><strong>Salaire:</strong> {{ job.salaryMin }}€ - {{ job.salaryMax }}€</p>
+      <p class="card-text">
+  <strong>Date de publication :</strong>
+  {{ job.createdAt | date:'dd/MM/yyyy à HH:mm' }}
+</p>
+
       
       <!-- Bouton pour postuler (seulement pour les JOB_SEEKER) -->
       <div class="mt-3" *ngIf="isJobSeeker()">

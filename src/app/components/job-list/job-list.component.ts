@@ -10,10 +10,13 @@ import { Job } from '../../data/job';
 })
 export class JobListComponent implements OnInit {
   jobs: Job[] = [];
-    
   location = '';
   type = '';
   experienceLevel = '';
+  companyName = '';
+salaryMin: number | null = null;
+salaryMax: number | null = null;
+
   
   constructor(private jobService: JobService) {}
 
@@ -29,11 +32,19 @@ export class JobListComponent implements OnInit {
   }
 
   searchJobs(): void {
-    this.jobService.searchJobs(this.location, this.type, this.experienceLevel).subscribe({
-      next: (data) => this.jobs = data,
-      error: (err) => console.error('Erreur lors de la recherche :', err)
-    });
-  }
+  this.jobService.searchJobs(
+    this.location,
+    this.type,
+    this.experienceLevel,
+    this.companyName,
+    this.salaryMin,
+    this.salaryMax
+  ).subscribe({
+    next: (data) => this.jobs = data,
+    error: (err) => console.error('Erreur lors de la recherche :', err)
+  });
+}
+
   isJobSeeker(): boolean {
     const userRole = localStorage.getItem('userRole');
     return userRole === 'JOB_SEEKER';
