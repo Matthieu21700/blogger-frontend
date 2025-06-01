@@ -12,6 +12,7 @@ export class JobListComponent implements OnInit {
   jobs: Job[] = [];
   location = '';
   type = '';
+  description='';
   experienceLevel = '';
   companyName = '';
 salaryMin: number | null = null;
@@ -37,6 +38,7 @@ salaryMax: number | null = null;
     this.type,
     this.experienceLevel,
     this.companyName,
+    this.description,
     this.salaryMin,
     this.salaryMax
   ).subscribe({

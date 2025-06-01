@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'create-job', component: JobCreateComponent },
   { path: 'register', component: RegisterComponent },
   {path: 'apply/:jobId', component: JobApplicationComponent},
-  {path: 'job-postes', component: JobPostesComponent},
+  {path: 'annonces', component: JobPostesComponent},
   {path: 'candidature', component: CandidaturesComponent},
 
 

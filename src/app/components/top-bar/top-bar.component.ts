@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector :'app-top-bar',
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
     return role === 'RECRUITER' ? 'Recruteur' : 'Candidat';
   }
   isRecruteur(): boolean {
+    const role = localStorage.getItem('userRole');
     return localStorage.getItem('userRole') === 'RECRUITER';
   }
   isCandidat(): boolean {

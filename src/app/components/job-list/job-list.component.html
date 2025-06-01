@@ -2,6 +2,7 @@
   <h2>Liste des offres d'emploi</h2>
 
   <form (submit)="searchJobs(); $event.preventDefault()" class="mb-4 row g-2">
+    <input type="text" placeholder="Description" [(ngModel)]="description" name="description" class="border p-2 rounded" />
     <input type="text" placeholder="Lieu" [(ngModel)]="location" name="location" class="border p-2 rounded" />
     <input type="text" placeholder="Type (Full-time, etc)" [(ngModel)]="type" name="type" class="border p-2 rounded" />
     <input type="text" placeholder="Niveau (Junior, etc)" [(ngModel)]="experienceLevel" name="experienceLevel" class="border p-2 rounded" />

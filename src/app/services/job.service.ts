@@ -22,12 +22,14 @@ searchJobs(
   type: string,
   experienceLevel: string,
   companyName: string,
+  description:string,
   salaryMin: number | null,
   salaryMax: number | null
 ): Observable<Job[]> {
   let params = new HttpParams();
   if (location) params = params.set('location', location);
   if (type) params = params.set('type', type);
+  if (description) params = params.set('description', description);
   if (experienceLevel) params = params.set('experienceLevel', experienceLevel);
   if (companyName) params = params.set('companyName', companyName);
   if (salaryMin !== null) params = params.set('salaryMin', salaryMin.toString());

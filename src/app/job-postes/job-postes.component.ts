@@ -12,6 +12,7 @@ export class JobPostesComponent implements OnInit{
   jobs: Job[] = [];
   location = '';
   type = '';
+  description='';
   experienceLevel = '';
   companyName = '';
 salaryMin: number | null = null;
@@ -35,17 +36,37 @@ salaryMax: number | null = null;
     }
   }
  searchJobs(): void {
-  this.jobService.searchJobs(
-    this.location,
-    this.type,
-    this.experienceLevel,
-    this.companyName,
-    this.salaryMin,
-    this.salaryMax
-  ).subscribe({
-    next: (data) => this.jobs = data,
-    error: (err) => console.error('Erreur lors de la recherche :', err)
-  });
+  const areAllFieldsEmpty = 
+    !this.location.trim() &&
+    !this.type.trim() &&
+    !this.experienceLevel.trim() &&
+    !this.companyName.trim() &&
+    !this.description.trim() &&
+    this.salaryMin === null &&
+    this.salaryMax === null;
+
+  const userId = localStorage.getItem('userId');
+
+  if (areAllFieldsEmpty && userId) {
+    this.jobService.getJobsByUserId(userId).subscribe({
+      next: (data) => this.jobs = data,
+      error: (err) => console.error('Erreur lors de la récupération des jobs utilisateur :', err)
+    });
+  } else {
+    this.jobService.searchJobs(
+      this.location,
+      this.type,
+      this.experienceLevel,
+      this.companyName,
+      this.description,
+      this.salaryMin,
+      this.salaryMax
+    ).subscribe({
+      next: (data) => this.jobs = data,
+      error: (err) => console.error('Erreur lors de la recherche :', err)
+    });
+  }
 }
+
 
 }
