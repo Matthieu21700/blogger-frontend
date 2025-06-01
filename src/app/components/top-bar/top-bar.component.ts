@@ -20,6 +20,10 @@ import { Router } from '@angular/router';
   isRecruteur(): boolean {
     return localStorage.getItem('userRole') === 'RECRUITER';
   }
+  isCandidat(): boolean {
+  return localStorage.getItem('userRole') === 'JOB_SEEKER';
+}
+
 
   logout(): void {
     localStorage.removeItem('userRole');
