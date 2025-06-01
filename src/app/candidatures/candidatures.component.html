@@ -5,6 +5,7 @@
     <ul class="list-group">
       <li *ngFor="let app of applications" class="list-group-item">
         <strong>{{ app.job?.title || 'Offre inconnue' }}</strong><br>
+        Entreprise : {{ app.job?.companyName||'non précisé'}}<br>
         Statut : en attente <br>
         Date de candidature : {{ app.appliedAt | date:'short' }}
       </li>
