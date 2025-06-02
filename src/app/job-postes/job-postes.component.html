@@ -2,19 +2,17 @@
   <h2>Mes offres d'emplois</h2>
 
   <form (submit)="searchJobs(); $event.preventDefault()" class="mb-4 row g-2">
-  <input type="text" placeholder="Description" [(ngModel)]="description" name="description" class="border p-2 rounded" />
-  <input type="text" placeholder="Lieu" [(ngModel)]="location" name="location" class="border p-2 rounded" />
-  <input type="text" placeholder="Type (Full-time, etc)" [(ngModel)]="type" name="type" class="border p-2 rounded" />
-  <input type="text" placeholder="Niveau (Junior, etc)" [(ngModel)]="experienceLevel" name="experienceLevel" class="border p-2 rounded" />
-  <input type="text" placeholder="Entreprise" [(ngModel)]="companyName" name="companyName" class="border p-2 rounded" />
+    <input type="text" placeholder="Description" [(ngModel)]="description" name="description" class="border p-2 rounded" />
+    <input type="text" placeholder="Lieu" [(ngModel)]="location" name="location" class="border p-2 rounded" />
+    <input type="text" placeholder="Type (Full-time, etc)" [(ngModel)]="type" name="type" class="border p-2 rounded" />
+    <input type="text" placeholder="Niveau (Junior, etc)" [(ngModel)]="experienceLevel" name="experienceLevel" class="border p-2 rounded" />
+    <input type="text" placeholder="Entreprise" [(ngModel)]="companyName" name="companyName" class="border p-2 rounded" />
     <input type="number" placeholder="Salaire min" [(ngModel)]="salaryMin" name="salaryMin" class="border p-2 rounded" />
     <input type="number" placeholder="Salaire max" [(ngModel)]="salaryMax" name="salaryMax" class="border p-2 rounded" />
-<button
-  type="submit"
-class="btn btn-primary col-span-1 sm:col-span-3">
-  Rechercher
-</button>
-</form>
+    <button type="submit" class="btn btn-primary col-span-1 sm:col-span-3">
+      Rechercher
+    </button>
+  </form>
 
   <div *ngFor="let job of jobs" class="job-card card mb-3">
     <div class="card-body">
@@ -26,9 +24,89 @@ class="btn btn-primary col-span-1 sm:col-span-3">
       <p class="card-text"><strong>Niveau:</strong> {{ job.experienceLevel }}</p>
       <p class="card-text"><strong>Salaire:</strong> {{ job.salaryMin }}€ - {{ job.salaryMax }}€</p>
       <p class="card-text">
-  <strong>Date de publication :</strong>
-  {{ job.createdAt | date:'dd/MM/yyyy à HH:mm' }}
-</p>
-   </div>
+        <strong>Date de publication :</strong>
+        {{ job.createdAt | date:'dd/MM/yyyy à HH:mm' }}
+      </p>
+
+      <!-- NOUVEAU : Bouton pour voir les candidatures -->
+      <div class="mt-3">
+        <button 
+          class="btn btn-info" 
+          (click)="toggleApplications(job.id)"
+          [class.btn-secondary]="isShowingApplications(job.id)">
+          {{ isShowingApplications(job.id) ? 'Masquer les candidatures' : 'Voir les candidatures' }}
+        </button>
+      </div>
+
+      <!-- NOUVEAU : Affichage des candidatures -->
+      <div *ngIf="isShowingApplications(job.id)" class="mt-4">
+        <div class="card">
+          <div class="card-header">
+            <h5>Candidatures reçues ({{ selectedJobApplications.length }})</h5>
+          </div>
+          <div class="card-body">
+            <div *ngIf="selectedJobApplications.length === 0" class="text-muted">
+              Aucune candidature reçue pour cette offre.
+            </div>
+            
+            <div *ngFor="let application of selectedJobApplications; let last = last" class="border rounded p-3 mb-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- Informations personnelles -->
+                  <div class="mb-3">
+                    <h6 class="mb-2">
+                      {{ application.firstName || application.user.firstName }} {{ application.lastName || application.user.lastName }}
+                    </h6>
+                    <p class="mb-1">
+                      <strong>Email :</strong> {{ application.email || application.user.email }}
+                    </p>
+                    <p class="mb-1" *ngIf="application.phone || application.user.phone">
+                      <strong>Téléphone :</strong> {{ application.phone || application.user.phone }}
+                    </p>
+                    <small class="text-muted">
+                      Candidature envoyée le {{ application.appliedAt | date:'dd/MM/yyyy à HH:mm' }}
+                    </small>
+                  </div>
+
+                  <!-- Compétences -->
+                  <div class="mb-3" *ngIf="application.skills && application.skills.length > 0">
+                    <h6 class="mb-2">
+                      <i class="fas fa-tools"></i> Compétences
+                    </h6>
+                    <div class="d-flex flex-wrap gap-1">
+                      <span *ngFor="let skill of application.skills" 
+                            class="badge bg-primary me-1 mb-1">
+                        {{ skill }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Expériences professionnelles -->
+                  <div class="mb-3" *ngIf="application.workExperiences && application.workExperiences.length > 0">
+                    <h6 class="mb-2">
+                      <i class="fas fa-briefcase"></i> Expériences professionnelles
+                    </h6>
+                    <div *ngFor="let experience of application.workExperiences" 
+                         class="card mb-2">
+                      <div class="card-body p-3">
+                        <h6 class="card-title mb-1">{{ experience.title }}</h6>
+                        <p class="card-text mb-2">{{ experience.description }}</p>
+                        <small class="text-muted">
+                          {{ experience.startDate | date:'MM/yyyy' }} - 
+                          {{ experience.endDate ? (experience.endDate | date:'MM/yyyy') : 'Présent' }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Separator - seulement si ce n'est pas le dernier élément -->
+                  <hr class="mt-3" *ngIf="!last">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

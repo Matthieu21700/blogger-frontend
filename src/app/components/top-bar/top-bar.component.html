@@ -16,6 +16,13 @@
         >
           Mes candidatures
         </button>
+        <button
+          *ngIf="isRecruteur()"
+          class="btn btn-primary btn-sm me-2"
+          [routerLink]="['/create-job']"
+        >
+          Créer un poste
+        </button>
          <button
           *ngIf="isRecruteur()"
           class="btn btn-primary btn-sm me-2"
@@ -25,7 +32,6 @@
         </button>
         <button class="btn btn-outline-danger btn-sm" (click)="logout()">Déconnexion</button>
       </ng-container>
-
       <ng-template #loginLink>
         <a [routerLink]="['/login']">
           <button class="btn btn-outline-success btn-sm" type="button">

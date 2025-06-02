@@ -85,10 +85,10 @@ export class JobApplicationComponent implements OnInit {
       this.application.skills.splice(index, 1);
     }
   }
+  
   trackByIndex(index: number, item: any): number {
-  return index;
-}
-
+    return index;
+  }
 
   submitApplication(): void {
     const userEmail = localStorage.getItem('userEmail');
@@ -102,6 +102,12 @@ export class JobApplicationComponent implements OnInit {
     // Récupérer l'ID utilisateur
     this.userService.getIdByemail(userEmail).subscribe({
       next: (userId: string) => {
+        // Filtrer les compétences et expériences vides
+        const filteredSkills = this.application.skills.filter(skill => skill.trim());
+        const filteredExperiences = this.application.workExperiences.filter(exp => 
+          exp.title.trim() && exp.description.trim()
+        );
+
         const applicationData = {
           user: { id: userId },
           job: { id: this.jobId },
@@ -109,14 +115,16 @@ export class JobApplicationComponent implements OnInit {
           lastName: this.application.lastName,
           email: this.application.email,
           phone: this.application.phone,
-          workExperiences: this.application.workExperiences.filter(exp => 
-            exp.title.trim() && exp.description.trim()
-          ),
-          skills: this.application.skills.filter(skill => skill.trim())
+          // Envoyer les compétences et expériences sous forme de chaînes JSON
+          skills: JSON.stringify(filteredSkills),
+          workExperiences: JSON.stringify(filteredExperiences)
         };
 
+        console.log('Données envoyées:', applicationData);
+
         this.applicationService.createApplication(applicationData).subscribe({
-          next: () => {
+          next: (response) => {
+            console.log('Candidature créée:', response);
             alert('Candidature envoyée avec succès !');
             this.router.navigate(['/']);
           },
