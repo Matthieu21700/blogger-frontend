@@ -3,6 +3,7 @@ import { Job } from '../data/job';
 import { JobService } from '../services/job.service';
 import { ApplicationService } from '../services/application.service';
 import { Application } from '../data/application';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-job-postes',
@@ -20,7 +21,7 @@ export class JobPostesComponent implements OnInit{
   salaryMin: number | null = null;
   salaryMax: number | null = null;
   
-  // NOUVEAU : Pour gérer l'affichage des candidatures
+  // Pour gérer l'affichage des candidatures
   selectedJobApplications: Application[] = [];
   showApplicationsForJobId: string | null = null;
 
@@ -78,20 +79,18 @@ export class JobPostesComponent implements OnInit{
     }
   }
 
-  // NOUVELLE MÉTHODE : Afficher/masquer les candidatures pour une offre
+  // Afficher/masquer les candidatures pour une offre
   toggleApplications(jobId: string): void {
     if (this.showApplicationsForJobId === jobId) {
-      // Si on clique sur la même offre, on masque les candidatures
       this.showApplicationsForJobId = null;
       this.selectedJobApplications = [];
     } else {
-      // Sinon, on affiche les candidatures pour cette offre
       this.showApplicationsForJobId = jobId;
       this.loadApplicationsForJob(jobId);
     }
   }
 
-  // NOUVELLE MÉTHODE : Charger les candidatures pour une offre spécifique
+  // Charger les candidatures pour une offre spécifique
   loadApplicationsForJob(jobId: string): void {
     this.applicationService.getApplicationsByJobId(jobId).subscribe({
       next: (applications) => {
@@ -104,8 +103,87 @@ export class JobPostesComponent implements OnInit{
     });
   }
 
-  // NOUVELLE MÉTHODE : Vérifier si les candidatures sont affichées pour une offre
+  // Vérifier si les candidatures sont affichées pour une offre
   isShowingApplications(jobId: string): boolean {
     return this.showApplicationsForJobId === jobId;
+  }
+
+  // NOUVELLES MÉTHODES pour accepter/refuser les candidatures
+  acceptApplication(application: Application): void {
+    Swal.fire({
+      title: 'Accepter la candidature',
+      input: 'textarea',
+      inputLabel: 'Message pour le candidat (optionnel)',
+      inputPlaceholder: 'Félicitations ! Nous souhaitons vous rencontrer...',
+      showCancelButton: true,
+      confirmButtonText: 'Accepter',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#28a745'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const message = result.value || 'Votre candidature a été acceptée !';
+        
+        this.applicationService.acceptApplication(application.id, message).subscribe({
+          next: () => {
+            Swal.fire('Succès', 'Candidature acceptée avec succès !', 'success');
+            // Recharger les candidatures pour cette offre
+            this.loadApplicationsForJob(application.job.id);
+          },
+          error: (err) => {
+            console.error('Erreur lors de l\'acceptation :', err);
+            Swal.fire('Erreur', 'Erreur lors de l\'acceptation de la candidature.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  rejectApplication(application: Application): void {
+    Swal.fire({
+      title: 'Refuser la candidature',
+      input: 'textarea',
+      inputLabel: 'Message pour le candidat (optionnel)',
+      inputPlaceholder: 'Nous vous remercions pour votre candidature, cependant...',
+      showCancelButton: true,
+      confirmButtonText: 'Refuser',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#dc3545'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const message = result.value || 'Votre candidature n\'a pas été retenue.';
+        
+        this.applicationService.rejectApplication(application.id, message).subscribe({
+          next: () => {
+            Swal.fire('Candidature refusée', 'Le candidat sera notifié.', 'info');
+            // Recharger les candidatures pour cette offre
+            this.loadApplicationsForJob(application.job.id);
+          },
+          error: (err) => {
+            console.error('Erreur lors du refus :', err);
+            Swal.fire('Erreur', 'Erreur lors du refus de la candidature.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  // Méthode pour obtenir le badge de statut
+  getStatusBadgeClass(status: string): string {
+    switch (status) {
+      case 'ACCEPTED': return 'badge bg-success';
+      case 'REJECTED': return 'badge bg-danger';
+      case 'PENDING': return 'badge bg-warning';
+      default: return 'badge bg-secondary';
+    }
+  }
+
+  // Méthode pour obtenir le texte du statut
+  getStatusText(status: string): string {
+    switch (status) {
+      case 'ACCEPTED': return 'Acceptée';
+      case 'REJECTED': return 'Refusée';
+      case 'PENDING': return 'En attente';
+      default: return 'Inconnu';
+    }
   }
 }

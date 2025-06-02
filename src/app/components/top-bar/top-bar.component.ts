@@ -1,14 +1,46 @@
-import {Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { ApplicationService } from '../../services/application.service';
 
 @Component({
     selector :'app-top-bar',
     templateUrl:'./top-bar.component.html',
     styleUrl: './top-bar.component.css',
     standalone: false
-})export class TopBarComponent  {
-     constructor(private router: Router) {}
+})
+export class TopBarComponent implements OnInit {
+  unreadCount = 0;
+
+  constructor(
+    private router: Router,
+    private applicationService: ApplicationService
+  ) {}
+
+  ngOnInit(): void {
+    // Charger le nombre de notifications non lues pour les candidats
+    if (this.isCandidat()) {
+      this.loadUnreadNotifications();
+      
+      // Rafraîchir toutes les 30 secondes
+      setInterval(() => {
+        this.loadUnreadNotifications();
+      }, 30000);
+    }
+  }
+
+  loadUnreadNotifications(): void {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.applicationService.getUnreadNotifications(userId).subscribe({
+        next: (notifications) => {
+          this.unreadCount = notifications.length;
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des notifications :', err);
+        }
+      });
+    }
+  }
 
   isConnected(): boolean {
     return localStorage.getItem('userRole') !== null;
@@ -18,18 +50,19 @@ import { UserService } from '../../services/user.service';
     const role = localStorage.getItem('userRole');
     return role === 'RECRUITER' ? 'Recruteur' : 'Candidat';
   }
+  
   isRecruteur(): boolean {
-    const role = localStorage.getItem('userRole');
     return localStorage.getItem('userRole') === 'RECRUITER';
   }
+  
   isCandidat(): boolean {
-  return localStorage.getItem('userRole') === 'JOB_SEEKER';
-}
-
+    return localStorage.getItem('userRole') === 'JOB_SEEKER';
+  }
 
   logout(): void {
     localStorage.removeItem('userRole');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('userId');
     this.router.navigate(['/login']);
   }
 }

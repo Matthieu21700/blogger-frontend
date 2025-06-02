@@ -9,13 +9,23 @@
         <span class="me-3">
           Connecté en tant que <strong>{{ getRoleLabel() }}</strong>
         </span>
-        <button
-          *ngIf="isCandidat()"
-          class="btn btn-info btn-sm me-2"
-          [routerLink]="['/candidature']"
-        >
-          Mes candidatures
-        </button>
+        
+        <!-- Bouton candidatures avec badge de notification pour les candidats -->
+        <div *ngIf="isCandidat()" class="position-relative me-2">
+          <button
+            class="btn btn-info btn-sm"
+            [routerLink]="['/candidature']"
+          >
+            <i class="fas fa-envelope"></i> Mes candidatures
+            <span 
+              *ngIf="unreadCount > 0" 
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ unreadCount }}
+              <span class="visually-hidden">notifications non lues</span>
+            </span>
+          </button>
+        </div>
+        
         <button
           *ngIf="isRecruteur()"
           class="btn btn-primary btn-sm me-2"
@@ -23,18 +33,23 @@
         >
           Créer un poste
         </button>
-         <button
+        
+        <button
           *ngIf="isRecruteur()"
           class="btn btn-primary btn-sm me-2"
           [routerLink]="['/annonces']"
         >
           Mes annonces
         </button>
-        <button class="btn btn-outline-danger btn-sm" (click)="logout()">Déconnexion</button>
+        
+        <button class="btn btn-outline-danger btn-sm" (click)="logout()">
+          Déconnexion
+        </button>
       </ng-container>
+      
       <ng-template #loginLink>
         <a [routerLink]="['/login']">
-          <button class="btn btn-outline-success btn-sm" type="button">
+          <button class="btn btn-outline-success btn-sm me-2" type="button">
             Connexion
           </button>
         </a>

@@ -42,4 +42,21 @@ export class ApplicationService {
       })))
     );
   }
+
+  // NOUVELLES MÉTHODES
+  acceptApplication(applicationId: string, message: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${applicationId}/accept`, { message });
+  }
+
+  rejectApplication(applicationId: string, message: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${applicationId}/reject`, { message });
+  }
+
+  markNotificationAsRead(applicationId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${applicationId}/mark-read`, {});
+  }
+
+  getUnreadNotifications(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/notifications/${userId}`);
+  }
 }

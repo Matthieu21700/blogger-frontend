@@ -13,7 +13,14 @@ export interface Application {
   user: User;
   job: Job;
   appliedAt: string;
-  // Nouvelles propriétés pour les informations de candidature
+  
+  // NOUVEAUX CHAMPS
+  status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+  decidedAt?: string;
+  recruiterMessage?: string;
+  notificationRead: boolean;
+  
+  // Propriétés existantes pour les informations de candidature
   firstName?: string;
   lastName?: string;
   email?: string;

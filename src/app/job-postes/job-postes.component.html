@@ -28,7 +28,7 @@
         {{ job.createdAt | date:'dd/MM/yyyy à HH:mm' }}
       </p>
 
-      <!-- NOUVEAU : Bouton pour voir les candidatures -->
+      <!-- Bouton pour voir les candidatures -->
       <div class="mt-3">
         <button 
           class="btn btn-info" 
@@ -38,7 +38,7 @@
         </button>
       </div>
 
-      <!-- NOUVEAU : Affichage des candidatures -->
+      <!-- Affichage des candidatures -->
       <div *ngIf="isShowingApplications(job.id)" class="mt-4">
         <div class="card">
           <div class="card-header">
@@ -52,20 +52,50 @@
             <div *ngFor="let application of selectedJobApplications; let last = last" class="border rounded p-3 mb-3">
               <div class="row">
                 <div class="col-md-12">
-                  <!-- Informations personnelles -->
-                  <div class="mb-3">
-                    <h6 class="mb-2">
-                      {{ application.firstName || application.user.firstName }} {{ application.lastName || application.user.lastName }}
-                    </h6>
-                    <p class="mb-1">
-                      <strong>Email :</strong> {{ application.email || application.user.email }}
-                    </p>
-                    <p class="mb-1" *ngIf="application.phone || application.user.phone">
-                      <strong>Téléphone :</strong> {{ application.phone || application.user.phone }}
-                    </p>
-                    <small class="text-muted">
-                      Candidature envoyée le {{ application.appliedAt | date:'dd/MM/yyyy à HH:mm' }}
-                    </small>
+                  <!-- En-tête avec informations personnelles et statut -->
+                  <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                      <h6 class="mb-2">
+                        {{ application.firstName || application.user.firstName }} {{ application.lastName || application.user.lastName }}
+                      </h6>
+                      <p class="mb-1">
+                        <strong>Email :</strong> {{ application.email || application.user.email }}
+                      </p>
+                      <p class="mb-1" *ngIf="application.phone || application.user.phone">
+                        <strong>Téléphone :</strong> {{ application.phone || application.user.phone }}
+                      </p>
+                      <small class="text-muted">
+                        Candidature envoyée le {{ application.appliedAt | date:'dd/MM/yyyy à HH:mm' }}
+                      </small>
+                    </div>
+                    <div class="text-end">
+                      <span [class]="getStatusBadgeClass(application.status)">
+                        {{ getStatusText(application.status) }}
+                      </span>
+                      <div *ngIf="application.decidedAt" class="small text-muted mt-1">
+                        Décision prise le {{ application.decidedAt | date:'dd/MM/yyyy à HH:mm' }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Message du recruteur si présent -->
+                  <div *ngIf="application.recruiterMessage" class="alert alert-info mb-3">
+                    <strong>Message envoyé au candidat :</strong><br>
+                    {{ application.recruiterMessage }}
+                  </div>
+
+                  <!-- Boutons d'action (seulement pour les candidatures en attente) -->
+                  <div *ngIf="application.status === 'PENDING'" class="mb-3">
+                    <button 
+                      class="btn btn-success btn-sm me-2" 
+                      (click)="acceptApplication(application)">
+                      <i class="fas fa-check"></i> Accepter
+                    </button>
+                    <button 
+                      class="btn btn-danger btn-sm" 
+                      (click)="rejectApplication(application)">
+                      <i class="fas fa-times"></i> Refuser
+                    </button>
                   </div>
 
                   <!-- Compétences -->

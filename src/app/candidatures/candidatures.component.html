@@ -1,18 +1,117 @@
 <div class="container mt-4">
   <h2>Mes candidatures</h2>
 
+  <!-- Section des notifications non lues -->
+  <div *ngIf="unreadNotifications.length > 0" class="alert alert-info mb-4">
+    <h5 class="alert-heading">
+      <i class="fas fa-bell"></i> 
+      Nouvelles notifications ({{ unreadNotifications.length }})
+    </h5>
+    <div *ngFor="let notification of unreadNotifications; let last = last" class="mb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ notification.job?.title }}</strong> - 
+          <span [class]="getStatusBadgeClass(notification.status)">
+            {{ getStatusText(notification.status) }}
+          </span>
+        </div>
+        <button 
+          class="btn btn-sm btn-outline-primary"
+          (click)="markAsRead(notification)">
+          Marquer comme lu
+        </button>
+      </div>
+      <div *ngIf="notification.recruiterMessage" class="small text-muted mt-1">
+        Message: {{ notification.recruiterMessage }}
+      </div>
+      <hr *ngIf="!last">
+    </div>
+  </div>
+
+  <!-- Liste des candidatures -->
   <div *ngIf="applications.length > 0; else noCandidatures">
-    <ul class="list-group">
-      <li *ngFor="let app of applications" class="list-group-item">
-        <strong>{{ app.job?.title || 'Offre inconnue' }}</strong><br>
-        Entreprise : {{ app.job?.companyName||'non précisé'}}<br>
-        Statut : en attente <br>
-        Date de candidature : {{ app.appliedAt | date:'short' }}
-      </li>
-    </ul>
+    <h4 class="mb-3">Toutes mes candidatures</h4>
+    <div class="row">
+      <div 
+        *ngFor="let app of applications" 
+        class="col-md-6 mb-3">
+        <div class="card" 
+             [class.border-primary]="hasNewNotification(app)"
+             [class.shadow]="hasNewNotification(app)">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">
+              {{ app.job?.title || 'Offre inconnue' }}
+              <span *ngIf="hasNewNotification(app)" class="badge bg-primary ms-2">
+                Nouveau
+              </span>
+            </h6>
+            <span [class]="getStatusBadgeClass(app.status)">
+              {{ getStatusText(app.status) }}
+            </span>
+          </div>
+          
+          <div class="card-body">
+            <p class="card-text">
+              <strong>Entreprise :</strong> {{ app.job?.companyName || 'Non précisée' }}
+            </p>
+            <p class="card-text">
+              <strong>Localisation :</strong> {{ app.job?.location || 'Non précisée' }}
+            </p>
+            <p class="card-text">
+              <strong>Date de candidature :</strong> 
+              {{ app.appliedAt | date:'dd/MM/yyyy à HH:mm' }}
+            </p>
+            
+            <!-- Informations sur la décision -->
+            <div *ngIf="app.status !== 'PENDING'" class="mt-3">
+              <div class="alert" 
+                   [class.alert-success]="app.status === 'ACCEPTED'"
+                   [class.alert-danger]="app.status === 'REJECTED'">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <strong>
+                      {{ app.status === 'ACCEPTED' ? 'Félicitations !' : 'Candidature non retenue' }}
+                    </strong>
+                    <div *ngIf="app.decidedAt" class="small text-muted">
+                      Décision prise le {{ app.decidedAt | date:'dd/MM/yyyy à HH:mm' }}
+                    </div>
+                  </div>
+                  <button 
+                    *ngIf="hasNewNotification(app)"
+                    class="btn btn-sm btn-outline-secondary"
+                    (click)="markAsRead(app)">
+                    <i class="fas fa-check"></i>
+                  </button>
+                </div>
+                
+                <div *ngIf="app.recruiterMessage" class="mt-2">
+                  <strong>Message du recruteur :</strong><br>
+                  <em>{{ app.recruiterMessage }}</em>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message d'attente -->
+            <div *ngIf="app.status === 'PENDING'" class="mt-3">
+              <div class="alert alert-warning">
+                <i class="fas fa-clock"></i>
+                Votre candidature est en cours d'examen. Vous serez notifié dès qu'une décision sera prise.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <ng-template #noCandidatures>
-    <p>Vous n'avez pas encore postulé à une offre.</p>
+    <div class="text-center py-5">
+      <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+      <h4 class="text-muted">Aucune candidature</h4>
+      <p class="text-muted">Vous n'avez pas encore postulé à une offre.</p>
+      <a routerLink="/" class="btn btn-primary">
+        <i class="fas fa-search"></i> Parcourir les offres
+      </a>
+    </div>
   </ng-template>
 </div>
