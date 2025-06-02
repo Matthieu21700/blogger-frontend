@@ -7,6 +7,7 @@ export interface Job {
   location?: string;
   salaryMin?: number;
   salaryMax?: number;
+  companyName?:String;
   type?: string; // Full-time, Part-time, etc.
   experienceLevel?: string; // Junior, Mid, Senior
   createdAt?: string;

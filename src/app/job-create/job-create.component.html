@@ -25,6 +25,32 @@
       Le titre ne doit pas dépasser 50 caractères.
     </div>
   </div>
+  <div class="mb-3">
+  <label for="companyName" class="form-label">Nom de l'entreprise</label>
+  <input
+    type="text"
+    id="companyName"
+    class="form-control"
+    name="companyName"
+    [(ngModel)]="job.companyName"
+    #companyName="ngModel"
+    required
+    maxlength="255"
+    [ngClass]="{
+      'is-invalid': companyName.invalid && companyName.touched
+    }"
+  />
+</div>
+
+<div *ngIf="companyName.invalid && companyName.touched" class="text-danger mt-1">
+  <div *ngIf="companyName.errors?.['required']">
+    Ce champ est requis.
+  </div>
+  <div *ngIf="companyName.errors?.['maxlength']">
+    Ce champ ne doit pas dépasser 255 caractères.
+  </div>
+</div>
+
 
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>

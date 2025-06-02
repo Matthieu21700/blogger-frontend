@@ -1,0 +1,18 @@
+<div class="container mt-4">
+  <h2>Mes candidatures</h2>
+
+  <div *ngIf="applications.length > 0; else noCandidatures">
+    <ul class="list-group">
+      <li *ngFor="let app of applications" class="list-group-item">
+        <strong>{{ app.job?.title || 'Offre inconnue' }}</strong><br>
+        Entreprise : {{ app.job?.companyName||'non précisé'}}<br>
+        Statut : en attente <br>
+        Date de candidature : {{ app.appliedAt | date:'short' }}
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noCandidatures>
+    <p>Vous n'avez pas encore postulé à une offre.</p>
+  </ng-template>
+</div>

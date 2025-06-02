@@ -15,4 +15,9 @@ export class UserService{
       params: { email }
     });
 }
+getRoleById(id: string): Observable<string> {
+    return this.http.get(`${this.UserUrl}/role`, {
+      params: { id }
+    , responseType: 'text' }); 
+  }
 }

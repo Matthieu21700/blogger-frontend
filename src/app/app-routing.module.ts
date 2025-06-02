@@ -8,6 +8,7 @@ import { JobCreateComponent } from './job-create/job-create.component';
 import { RegisterComponent } from './register/register.component';
 import { JobApplicationComponent } from './job-application/job-application.component';
 import { JobPostesComponent } from './job-postes/job-postes.component';
+import { CandidaturesComponent } from './candidatures/candidatures.component';
 
 const routes: Routes = [
   {path: 'add-post', component: PostFormComponent },
@@ -17,7 +18,10 @@ const routes: Routes = [
   { path: 'create-job', component: JobCreateComponent },
   { path: 'register', component: RegisterComponent },
   {path: 'apply/:jobId', component: JobApplicationComponent},
-  {path: 'job-postes', component: JobPostesComponent}
+  {path: 'annonces', component: JobPostesComponent},
+  {path: 'candidature', component: CandidaturesComponent},
+
+
 
 
     // Route pour le formulaire

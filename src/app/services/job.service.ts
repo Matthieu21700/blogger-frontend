@@ -17,14 +17,27 @@ export class JobService {
     return this.http.get<Job>(`${this.apiUrl}/${id}`);
   }
   // src/app/services/job.service.ts
-searchJobs(location: string, type: string, experienceLevel: string): Observable<Job[]> {
-  const params = new HttpParams()
-    .set('location', location)
-    .set('type', type)
-    .set('experienceLevel', experienceLevel);
+searchJobs(
+  location: string,
+  type: string,
+  experienceLevel: string,
+  companyName: string,
+  description:string,
+  salaryMin: number | null,
+  salaryMax: number | null
+): Observable<Job[]> {
+  let params = new HttpParams();
+  if (location) params = params.set('location', location);
+  if (type) params = params.set('type', type);
+  if (description) params = params.set('description', description);
+  if (experienceLevel) params = params.set('experienceLevel', experienceLevel);
+  if (companyName) params = params.set('companyName', companyName);
+  if (salaryMin !== null) params = params.set('salaryMin', salaryMin.toString());
+  if (salaryMax !== null) params = params.set('salaryMax', salaryMax.toString());
 
   return this.http.get<Job[]>(`${this.apiUrl}/search`, { params });
 }
+
 createJob(job: any): Observable<any> {
   return this.http.post(`${this.apiUrl}`, job);
 }

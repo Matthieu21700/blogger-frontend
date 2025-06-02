@@ -85,6 +85,10 @@ export class JobApplicationComponent implements OnInit {
       this.application.skills.splice(index, 1);
     }
   }
+  trackByIndex(index: number, item: any): number {
+  return index;
+}
+
 
   submitApplication(): void {
     const userEmail = localStorage.getItem('userEmail');

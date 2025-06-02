@@ -16,8 +16,7 @@ export class LoginComponent {
 
   constructor(private router: Router,private UserService: UserService ) {}
 login() {
-  // Enregistrement "fake" des infos
-  localStorage.setItem('userRole', this.role);
+  // Stocke l'email de l'utilisateur
   localStorage.setItem('userEmail', this.email);
 
   const userEmail = localStorage.getItem('userEmail');
@@ -27,14 +26,26 @@ login() {
     this.UserService.getIdByemail(userEmail).subscribe({
       next: (userId: string) => {
         console.log('ID utilisateur récupéré :', userId);
-        localStorage.setItem('userId', userId); // ← si tu veux le réutiliser ailleurs plus tard
+        localStorage.setItem('userId', userId);
 
-        // Redirection selon rôle
-        if (this.role === 'RECRUITER') {
-          this.router.navigate(['create-job']);
-        } else {
-          this.router.navigate(['']);
-        }
+        
+        this.UserService.getRoleById(userId).subscribe({
+          next: (role: string) => {
+            console.log('Rôle récupéré :', role);
+            localStorage.setItem('userRole', role);
+
+            
+            if (role === 'RECRUITER') {
+              this.router.navigate(['create-job']);
+            } else {
+              this.router.navigate(['']);
+            }
+          },
+          error: (err) => {
+            console.error('Erreur lors de la récupération du rôle :', err);
+            alert('Erreur lors de la récupération du rôle utilisateur.');
+          }
+        });
       },
       error: (err) => {
         console.error('Erreur lors de la récupération de l\'ID utilisateur :', err);
@@ -45,4 +56,5 @@ login() {
     alert('Erreur : email utilisateur introuvable.');
   }
 }
+
 }
