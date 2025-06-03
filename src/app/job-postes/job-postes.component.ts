@@ -20,8 +20,6 @@ export class JobPostesComponent implements OnInit{
   companyName = '';
   salaryMin: number | null = null;
   salaryMax: number | null = null;
-  
-  // Pour gérer l'affichage des candidatures
   selectedJobApplications: Application[] = [];
   showApplicationsForJobId: string | null = null;
 
@@ -78,8 +76,6 @@ export class JobPostesComponent implements OnInit{
       });
     }
   }
-
-  // Afficher/masquer les candidatures pour une offre
   toggleApplications(jobId: string): void {
     if (this.showApplicationsForJobId === jobId) {
       this.showApplicationsForJobId = null;
@@ -89,8 +85,6 @@ export class JobPostesComponent implements OnInit{
       this.loadApplicationsForJob(jobId);
     }
   }
-
-  // Charger les candidatures pour une offre spécifique
   loadApplicationsForJob(jobId: string): void {
     this.applicationService.getApplicationsByJobId(jobId).subscribe({
       next: (applications) => {
@@ -102,13 +96,9 @@ export class JobPostesComponent implements OnInit{
       }
     });
   }
-
-  // Vérifier si les candidatures sont affichées pour une offre
   isShowingApplications(jobId: string): boolean {
     return this.showApplicationsForJobId === jobId;
   }
-
-  // NOUVELLES MÉTHODES pour accepter/refuser les candidatures
   acceptApplication(application: Application): void {
     Swal.fire({
       title: 'Accepter la candidature',
@@ -126,7 +116,6 @@ export class JobPostesComponent implements OnInit{
         this.applicationService.acceptApplication(application.id, message).subscribe({
           next: () => {
             Swal.fire('Succès', 'Candidature acceptée avec succès !', 'success');
-            // Recharger les candidatures pour cette offre
             this.loadApplicationsForJob(application.job.id);
           },
           error: (err) => {
@@ -155,7 +144,6 @@ export class JobPostesComponent implements OnInit{
         this.applicationService.rejectApplication(application.id, message).subscribe({
           next: () => {
             Swal.fire('Candidature refusée', 'Le candidat sera notifié.', 'info');
-            // Recharger les candidatures pour cette offre
             this.loadApplicationsForJob(application.job.id);
           },
           error: (err) => {
@@ -167,7 +155,43 @@ export class JobPostesComponent implements OnInit{
     });
   }
 
-  // Méthode pour obtenir le badge de statut
+  deleteJob(jobId: string): void {
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: 'Cette action supprimera définitivement l\'offre et toutes les candidatures associées.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.jobService.deleteJob(jobId).subscribe({
+          next: () => {
+            Swal.fire(
+              'Supprimée !',
+              'L\'offre a été supprimée avec succès.',
+              'success'
+            );
+            this.jobs = this.jobs.filter(job => job.id !== jobId);
+            if (this.showApplicationsForJobId === jobId) {
+              this.showApplicationsForJobId = null;
+              this.selectedJobApplications = [];
+            }
+          },
+          error: (err) => {
+            console.error('Erreur lors de la suppression :', err);
+            Swal.fire(
+              'Erreur',
+              'Erreur lors de la suppression de l\'offre.',
+              'error'
+            );
+          }
+        });
+      }
+    });
+  }
   getStatusBadgeClass(status: string): string {
     switch (status) {
       case 'ACCEPTED': return 'badge bg-success';
@@ -176,8 +200,6 @@ export class JobPostesComponent implements OnInit{
       default: return 'badge bg-secondary';
     }
   }
-
-  // Méthode pour obtenir le texte du statut
   getStatusText(status: string): string {
     switch (status) {
       case 'ACCEPTED': return 'Acceptée';

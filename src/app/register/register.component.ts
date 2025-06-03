@@ -31,7 +31,7 @@ export class RegisterComponent {
         timer: 2000
       }).then(() => {
         console.log('bonou', data);
-        localStorage.setItem('user_id', data.id); // UUID ici
+        localStorage.setItem('user_id', data.id); 
         this.router.navigate(['/login']);
       });
     },

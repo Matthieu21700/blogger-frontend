@@ -16,7 +16,6 @@ export class LoginComponent {
 
   constructor(private router: Router,private UserService: UserService ) {}
 login() {
-  // Stocke l'email de l'utilisateur
   localStorage.setItem('userEmail', this.email);
 
   const userEmail = localStorage.getItem('userEmail');
@@ -33,13 +32,8 @@ login() {
           next: (role: string) => {
             console.log('Rôle récupéré :', role);
             localStorage.setItem('userRole', role);
-
+            this.router.navigate(['']);
             
-            if (role === 'RECRUITER') {
-              this.router.navigate(['create-job']);
-            } else {
-              this.router.navigate(['']);
-            }
           },
           error: (err) => {
             console.error('Erreur lors de la récupération du rôle :', err);

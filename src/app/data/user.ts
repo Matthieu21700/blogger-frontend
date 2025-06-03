@@ -4,5 +4,5 @@ export interface User {
   lastName: string;
   email: string;
   phone?: string;
-  role: string; // "RECRUITER" ou "JOB_SEEKER"
+  role: string; 
 }

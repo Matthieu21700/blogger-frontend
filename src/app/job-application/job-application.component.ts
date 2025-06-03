@@ -1,4 +1,3 @@
-// src/app/job-application/job-application.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JobService } from '../services/job.service';
@@ -56,7 +55,6 @@ export class JobApplicationComponent implements OnInit {
   loadUserInfo(): void {
     const userEmail = localStorage.getItem('userEmail');
     if (userEmail) {
-      // Pré-remplir avec les infos utilisateur si disponibles
       this.application.email = userEmail;
     }
   }
@@ -99,10 +97,8 @@ export class JobApplicationComponent implements OnInit {
       return;
     }
 
-    // Récupérer l'ID utilisateur
     this.userService.getIdByemail(userEmail).subscribe({
       next: (userId: string) => {
-        // Filtrer les compétences et expériences vides
         const filteredSkills = this.application.skills.filter(skill => skill.trim());
         const filteredExperiences = this.application.workExperiences.filter(exp => 
           exp.title.trim() && exp.description.trim()
@@ -115,7 +111,6 @@ export class JobApplicationComponent implements OnInit {
           lastName: this.application.lastName,
           email: this.application.email,
           phone: this.application.phone,
-          // Envoyer les compétences et expériences sous forme de chaînes JSON
           skills: JSON.stringify(filteredSkills),
           workExperiences: JSON.stringify(filteredExperiences)
         };

@@ -17,11 +17,8 @@ export class TopBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Charger le nombre de notifications non lues pour les candidats
     if (this.isCandidat()) {
       this.loadUnreadNotifications();
-      
-      // Rafraîchir toutes les 30 secondes
       setInterval(() => {
         this.loadUnreadNotifications();
       }, 30000);

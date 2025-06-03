@@ -9,10 +9,7 @@ export class PostService{
     private postsUrl = 'http://localhost:1234/posts';
 
     constructor(private http : HttpClient){}
-    //getPosts(): Observable<Post[]>{
-     //   const posts = of(POSTS);
-     //   return posts;
-   // }
+    
    getAll(): Observable<Post[]>{
     return this.http.get<Post[]>(this.postsUrl);
    }

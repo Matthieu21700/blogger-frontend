@@ -17,6 +17,7 @@ import { JobListComponent } from './components/job-list/job-list.component';
 import { JobService } from './services/job.service';
 import { LoginComponent } from './login/login.component';
 import { JobCreateComponent } from './job-create/job-create.component';
+import { JobEditComponent } from './job-edit/job-edit.component';
 import { RegisterComponent } from './register/register.component';
 import { UserService } from './services/user.service';
 import { JobApplicationComponent } from './job-application/job-application.component';
@@ -33,6 +34,7 @@ import { CandidaturesComponent } from './candidatures/candidatures.component';
     JobListComponent,
     LoginComponent,
     JobCreateComponent,
+    JobEditComponent,
     RegisterComponent,
     JobApplicationComponent,
     JobPostesComponent,

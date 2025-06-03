@@ -29,8 +29,6 @@
   {{ job.createdAt | date:'dd/MM/yyyy à HH:mm' }}
 </p>
 
-      
-      <!-- Bouton pour postuler (seulement pour les JOB_SEEKER) -->
       <div class="mt-3" *ngIf="isJobSeeker()">
         <a [routerLink]="['/apply', job.id]" class="btn btn-success">
           Postuler à cette offre

@@ -10,7 +10,6 @@
     <div class="container">
         <h2>Créer une Publication</h2>
         <form [formGroup]="postForm" (ngSubmit)="submit()">            
-            <!-- Titre -->
             <div class="mb-3">
                 <label for="title" class="form-label">Titre</label>
                 <input type="text" 
@@ -31,8 +30,6 @@
                     Le titre ne doit pas dépasser 150 caractères.
                 </div>
             </div>
-
-            <!-- Catégorie -->
             <div class="mb-3">
                 <label for="category" class="form-label">Catégorie</label>
                 
@@ -49,8 +46,6 @@
                     La catégorie est requise.
                 </div>
             </div>
-
-            <!-- Contenu -->
             <div class="mb-3">
                 <textarea class="form-control" 
                           id="content" 

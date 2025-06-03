@@ -5,6 +5,7 @@ import { PostFormComponent } from './components/formulaire/post-form.component';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { LoginComponent } from './login/login.component';
 import { JobCreateComponent } from './job-create/job-create.component';
+import { JobEditComponent } from './job-edit/job-edit.component';
 import { RegisterComponent } from './register/register.component';
 import { JobApplicationComponent } from './job-application/job-application.component';
 import { JobPostesComponent } from './job-postes/job-postes.component';
@@ -16,16 +17,11 @@ const routes: Routes = [
   {path:'',component: JobListComponent},
   {path:'login',component:LoginComponent},
   { path: 'create-job', component: JobCreateComponent },
+  { path: 'edit-job/:id', component: JobEditComponent },
   { path: 'register', component: RegisterComponent },
   {path: 'apply/:jobId', component: JobApplicationComponent},
   {path: 'annonces', component: JobPostesComponent},
   {path: 'candidature', component: CandidaturesComponent},
-
-
-
-
-    // Route pour le formulaire
- 
 ];
 
 @NgModule({

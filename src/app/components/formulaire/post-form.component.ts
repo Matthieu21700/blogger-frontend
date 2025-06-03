@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../data/category';
 import { CategoryService } from '../../services/category.service';
 import Swal from 'sweetalert2';
-import { FormGroup, FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';  // Importez FormGroup et FormBuilder
+import { FormGroup, FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../services/post.service';
@@ -12,7 +12,7 @@ import { PostService } from '../../services/post.service';
   selector: 'app-post-form',
   templateUrl: './post-form.component.html',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  standalone: true, // IMPORTANT
+  standalone: true, 
 })
 export class PostFormComponent implements OnInit {
   categories: Category[] = [];
@@ -40,7 +40,6 @@ export class PostFormComponent implements OnInit {
 
   submit(): void {
     if (this.postForm.invalid) {
-      // Si le formulaire est invalide, afficher un toast d'erreur
       Swal.fire({
         toast: true,
         position: 'top-end',
@@ -54,12 +53,12 @@ export class PostFormComponent implements OnInit {
     const payload = {
       title: formValue.title,
       content: formValue.content,
-      categoryId: formValue.category // ← ici c'est bien l'UUID
+      categoryId: formValue.category 
     };
       this.postService.createPost(payload).subscribe({
         next: (response) => {
           console.log('Post ajouté avec succès !', response);
-          this.postForm.reset(); // Réinitialise le formulaire
+          this.postForm.reset(); 
         },
         error: (error) => {
           console.error('Erreur lors de l\'ajout du post', error);
@@ -74,7 +73,7 @@ export class PostFormComponent implements OnInit {
         timer: 3000
       }).then(() => {
         
-        window.location.href = '/';  // ou utilisez le routeur Angular pour une navigation propre
+        window.location.href = '/';  
       });
     }
   }

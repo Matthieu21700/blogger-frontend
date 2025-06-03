@@ -9,22 +9,18 @@ export interface WorkExperience {
 }
 
 export interface Application {
-  id: string; // UUID
+  id: string; 
   user: User;
   job: Job;
   appliedAt: string;
-  
-  // NOUVEAUX CHAMPS
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
   decidedAt?: string;
   recruiterMessage?: string;
   notificationRead: boolean;
-  
-  // Propriétés existantes pour les informations de candidature
   firstName?: string;
   lastName?: string;
   email?: string;
   phone?: string;
-  skills?: string[]; // Tableau de compétences
-  workExperiences?: WorkExperience[]; // Tableau d'expériences
+  skills?: string[]; 
+  workExperiences?: WorkExperience[]; 
 }

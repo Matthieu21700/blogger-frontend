@@ -1,4 +1,3 @@
-// src/app/services/application.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -31,8 +30,6 @@ export class ApplicationService {
   getApplicationsByUserId(userId: string): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}/user/${userId}`);
   }
-
-  // Méthode modifiée pour parser les données JSON
   getApplicationsByJobId(jobId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/job/${jobId}`).pipe(
       map(applications => applications.map(app => ({
@@ -42,8 +39,6 @@ export class ApplicationService {
       })))
     );
   }
-
-  // NOUVELLES MÉTHODES
   acceptApplication(applicationId: string, message: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${applicationId}/accept`, { message });
   }
