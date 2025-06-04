@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class JobPostesComponent implements OnInit{
   jobs: Job[] = [];
+  titre = '';
   location = '';
   type = '';
   description='';
@@ -46,6 +47,7 @@ export class JobPostesComponent implements OnInit{
 
   searchJobs(): void {
     const areAllFieldsEmpty = 
+      !this.titre.trim() &&
       !this.location.trim() &&
       !this.type.trim() &&
       !this.experienceLevel.trim() &&
@@ -55,6 +57,10 @@ export class JobPostesComponent implements OnInit{
       this.salaryMax === null;
 
     const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.warn("Aucun userId trouvé dans le localStorage.");
+      return;
+    }
 
     if (areAllFieldsEmpty && userId) {
       this.jobService.getJobsByUserId(userId).subscribe({
@@ -62,7 +68,9 @@ export class JobPostesComponent implements OnInit{
         error: (err) => console.error('Erreur lors de la récupération des jobs utilisateur :', err)
       });
     } else {
-      this.jobService.searchJobs(
+      this.jobService.searchJobsByUserId(
+        userId,
+        this.titre,
         this.location,
         this.type,
         this.experienceLevel,

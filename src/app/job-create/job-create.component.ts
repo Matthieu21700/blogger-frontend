@@ -18,15 +18,31 @@ export class JobCreateComponent {
     qualifications: '',
     location: '',
     companyName:'',
-    salary_min: 0,
-    salary_max: 0,
+    salaryMin: 0,
+    salaryMax: 0,
     type: 'Full-time',
     experienceLevel: 'Junior',
   };
 
   constructor(private jobService: JobService, private router: Router,private UserService: UserService) {}
+  isSalaryRangeInvalid(): boolean {
+    return this.job.salaryMin > 0 && this.job.salaryMax > 0 && this.job.salaryMin > this.job.salaryMax;
+  }
+
+  
+  isFormValid(): boolean {
+    return !this.isSalaryRangeInvalid();
+  }
 
   createJob(): void {
+    if (this.isSalaryRangeInvalid()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur de validation',
+        text: 'Le salaire minimum ne peut pas être supérieur au salaire maximum.'
+      });
+      return;
+    }
   const userEmail = localStorage.getItem('userEmail');
 
   if (userEmail) {
@@ -45,7 +61,7 @@ export class JobCreateComponent {
               showConfirmButton: false,
               timer: 2000
             }).then(() => {
-              this.router.navigate(['/jobs']);
+              this.router.navigate(['']);
             });
           },
           error: (err) => {

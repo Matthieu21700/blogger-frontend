@@ -10,6 +10,7 @@ import { Job } from '../../data/job';
 })
 export class JobListComponent implements OnInit {
   jobs: Job[] = [];
+  titre = '';
   location = '';
   type = '';
   description='';
@@ -34,6 +35,7 @@ salaryMax: number | null = null;
 
   searchJobs(): void {
   this.jobService.searchJobs(
+    this.titre,
     this.location,
     this.type,
     this.experienceLevel,

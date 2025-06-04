@@ -19,6 +19,7 @@ export class JobService {
   }
   
   searchJobs(
+    titre: string,
     location: string,
     type: string,
     experienceLevel: string,
@@ -28,6 +29,7 @@ export class JobService {
     salaryMax: number | null
   ): Observable<Job[]> {
     let params = new HttpParams();
+    if (titre) params = params.set('titre', titre);
     if (location) params = params.set('location', location);
     if (type) params = params.set('type', type);
     if (description) params = params.set('description', description);
@@ -38,6 +40,29 @@ export class JobService {
 
     return this.http.get<Job[]>(`${this.apiUrl}/search`, { params });
   }
+  searchJobsByUserId(
+    userId: string,
+    titre: string,
+    location: string,
+    type: string,
+    experienceLevel: string,
+    companyName: string,
+    description:string,
+    salaryMin: number | null,
+    salaryMax: number | null
+  ): Observable<Job[]> {
+    let params = new HttpParams();
+    if (titre) params = params.set('titre', titre);
+    if (location) params = params.set('location', location);
+    if (type) params = params.set('type', type);
+    if (description) params = params.set('description', description);
+    if (experienceLevel) params = params.set('experienceLevel', experienceLevel);
+    if (companyName) params = params.set('companyName', companyName);
+    if (salaryMin !== null) params = params.set('salaryMin', salaryMin.toString());
+    if (salaryMax !== null) params = params.set('salaryMax', salaryMax.toString());
+
+    return this.http.get<Job[]>(`${this.apiUrl}/search/${userId}`, { params });
+  }
 
   createJob(job: any): Observable<any> {
     return this.http.post(`${this.apiUrl}`, job);
@@ -47,7 +72,7 @@ export class JobService {
     return this.http.get<Job[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  // NOUVELLES MÉTHODES
+  
   updateJob(jobId: string, job: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${jobId}`, job);
   }

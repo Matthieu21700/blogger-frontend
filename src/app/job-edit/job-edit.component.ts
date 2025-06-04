@@ -19,8 +19,8 @@ export class JobEditComponent implements OnInit {
     qualifications: '',
     location: '',
     companyName: '',
-    salary_min: 0,
-    salary_max: 0,
+    salaryMin: 0,
+    salaryMax: 0,
     type: 'Full-time',
     experienceLevel: 'Junior',
   };
@@ -34,6 +34,13 @@ export class JobEditComponent implements OnInit {
     private jobService: JobService,
     private userService: UserService
   ) {}
+  isSalaryRangeInvalid(): boolean {
+    return this.job.salaryMin > 0 && this.job.salaryMax > 0 && this.job.salaryMin > this.job.salaryMax;
+  }
+
+  isFormValid(): boolean {
+    return !this.isSalaryRangeInvalid();
+  }
 
   ngOnInit(): void {
     this.jobId = this.route.snapshot.paramMap.get('id')!;
@@ -50,8 +57,8 @@ export class JobEditComponent implements OnInit {
           qualifications: jobData.qualifications || '',
           location: jobData.location || '',
           companyName: this.convertToString(jobData.companyName) || '',
-          salary_min: jobData.salaryMin || 0,
-          salary_max: jobData.salaryMax || 0,
+          salaryMin: jobData.salaryMin || 0,
+          salaryMax: jobData.salaryMax || 0,
           type: jobData.type || 'Full-time',
           experienceLevel: jobData.experienceLevel || 'Junior'
         };
@@ -107,6 +114,14 @@ export class JobEditComponent implements OnInit {
 
   updateJob(): void {
     if (!this.canEdit) {
+      return;
+    }
+    if (this.isSalaryRangeInvalid()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur de validation',
+        text: 'Le salaire minimum ne peut pas être supérieur au salaire maximum.'
+      });
       return;
     }
 
