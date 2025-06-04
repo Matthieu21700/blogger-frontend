@@ -115,7 +115,7 @@
                 <input type="text" class="form-control" 
                        placeholder="Ex: JavaScript, Communication, etc."
                        [(ngModel)]="application.skills[i]" 
-                       name="'skill' + i">
+                       [name]="'skill' + i">
                 <button type="button" class="btn btn-outline-danger" 
                         (click)="removeSkill(i)"
                         [disabled]="application.skills.length === 1">
